@@ -7,6 +7,7 @@ pub struct Input {
 mod day1;
 mod day10;
 mod day11;
+mod day12;
 mod day2;
 mod day3;
 mod day4;
@@ -41,6 +42,7 @@ pub fn run(input: Input) -> Result<i64, Box<dyn std::error::Error>> {
     (10, 2) => Ok(day10::part2(&input)?),
     (11, 1) => Ok(day11::part1(&input)?),
     (11, 2) => Ok(day11::part2(&input)?),
+    (12, 1) => Ok(day12::part1(&input)?),
     _ => Err(format!("{}-{} not found", day, part).into()),
   }
 }
