@@ -36,6 +36,8 @@ pub fn run(input: Input) -> Result<i64, Box<dyn std::error::Error>> {
     (8, 2) => Ok(day8::part2(&input)?),
     (9, 1) => Ok(day9::part1(&input)?),
     (9, 2) => Ok(day9::part2(&input)?),
+    (10, 1) => Ok(day10::part1(&input)?),
+    (10, 2) => Ok(day10::part2(&input)?),
     _ => Err(format!("{}-{} not found", day, part).into()),
   }
 }
