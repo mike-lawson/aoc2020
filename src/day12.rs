@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::fs;
 
 #[derive(Debug, PartialEq)]
 enum Action {
@@ -62,6 +63,45 @@ fn process_direction(tuple: &mut Tuple, action: Action) {
   }
 }
 
+fn process_correct_directions(ship: &mut Tuple, waypoint: &mut Tuple, action: Action) {
+  match action {
+    Action::North(val) => {
+      waypoint.0 += val;
+    }
+    Action::South(val) => {
+      waypoint.0 -= val;
+    }
+    Action::East(val) => {
+      waypoint.1 += val;
+    }
+    Action::West(val) => {
+      waypoint.1 -= val;
+    }
+    Action::Left(val) => match val {
+      90 => {
+        let temp = waypoint.0;
+        waypoint.0 = waypoint.1;
+        waypoint.1 = -temp;
+      }
+      180 => {
+        waypoint.0 = -waypoint.0;
+        waypoint.1 = -waypoint.1;
+      }
+      270 => {
+        let temp = waypoint.0;
+        waypoint.0 = -waypoint.1;
+        waypoint.1 = temp;
+      }
+      _ => todo!(),
+    },
+    Action::Right(val) => process_correct_directions(ship, waypoint, Action::Left(360 - val)),
+    Action::Forward(val) => {
+      ship.0 += val * waypoint.0;
+      ship.1 += val * waypoint.1;
+    }
+  }
+}
+
 fn parse_part_1(input: &str) -> i64 {
   let actions: Vec<Action> = input.lines().map(|x| parse_action(x)).collect();
   let mut tuple: Tuple = (0, 0, 90);
@@ -74,6 +114,21 @@ fn parse_part_1(input: &str) -> i64 {
 
 pub fn part1(input: &str) -> Result<i64, Box<dyn Error>> {
   Ok(parse_part_1(input))
+}
+
+pub fn parse_part_2(input: &str) -> i64 {
+  let actions: Vec<Action> = input.lines().map(|x| parse_action(x)).collect();
+  let mut ship: Tuple = (0, 0, 90);
+  let mut waypoint: Tuple = (1, 10, 0);
+  for action in actions {
+    process_correct_directions(&mut ship, &mut waypoint, action);
+  }
+
+  ship.0.abs() + ship.1.abs()
+}
+
+pub fn part2(input: &str) -> Result<i64, Box<dyn Error>> {
+  Ok(parse_part_2(input))
 }
 
 #[cfg(test)]
@@ -94,5 +149,12 @@ F11";
   #[test]
   fn test_part1() {
     assert_eq!(25, parse_part_1(INPUT_EXAMPLE_1));
+  }
+
+  #[test]
+  fn test_part2() {
+    let input = fs::read_to_string("input/day12-test.txt").unwrap();
+    assert_eq!(286, parse_part_2(INPUT_EXAMPLE_1));
+    assert_eq!(30761, parse_part_2(&input));
   }
 }
