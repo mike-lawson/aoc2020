@@ -8,6 +8,7 @@ mod day1;
 mod day10;
 mod day11;
 mod day12;
+mod day13;
 mod day2;
 mod day3;
 mod day4;
@@ -44,6 +45,8 @@ pub fn run(input: Input) -> Result<i64, Box<dyn std::error::Error>> {
     (11, 2) => Ok(day11::part2(&input)?),
     (12, 1) => Ok(day12::part1(&input)?),
     (12, 2) => Ok(day12::part2(&input)?),
+    (13, 1) => Ok(day13::part1(&input)?),
+    (13, 2) => Ok(day13::part2(&input)?),
     _ => Err(format!("{}-{} not found", day, part).into()),
   }
 }

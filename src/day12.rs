@@ -1,5 +1,4 @@
 use std::error::Error;
-use std::fs;
 
 #[derive(Debug, PartialEq)]
 enum Action {
@@ -134,6 +133,7 @@ pub fn part2(input: &str) -> Result<i64, Box<dyn Error>> {
 #[cfg(test)]
 mod tests {
   use super::*;
+  use std::fs;
 
   static INPUT_EXAMPLE_1: &str = r"F10
 N3
